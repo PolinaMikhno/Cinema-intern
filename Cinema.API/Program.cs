@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Cinema.API
@@ -17,11 +15,6 @@ namespace Cinema.API
 
         private static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-            var builtConfig = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddCommandLine(args)
-                .Build();
-
             string logsPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
                               "\\logs.txt";
             Log.Logger = new LoggerConfiguration()
@@ -29,14 +22,13 @@ namespace Cinema.API
                 .WriteTo.File(logsPath)
                 .WriteTo.Console()
                 .CreateLogger();
-
+            
             try
             {
+                Log.Information("Starting up...");
                 return WebHost.CreateDefaultBuilder(args)
-                    .ConfigureServices((context, services) => { services.AddMvc(); })
-                    .ConfigureAppConfiguration((hostingContext, config) => { config.AddConfiguration(builtConfig); })
-                    .ConfigureLogging(logging => { logging.AddSerilog(); })
-                    .UseStartup<Startup>();
+                    .UseStartup<Startup>()
+                    .UseSerilog(Log.Logger);
             }
             catch (Exception ex)
             {

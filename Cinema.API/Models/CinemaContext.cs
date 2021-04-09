@@ -2,11 +2,11 @@
 
 namespace Cinema.API.Models
 {
-    public class CinemaContext : DbContext
+    public sealed class CinemaContext : DbContext
     {
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<SomeItem> Items { get; set; }

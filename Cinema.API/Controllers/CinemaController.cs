@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Cinema.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +14,19 @@ namespace Cinema.API.Controllers
         public CinemaController(CinemaContext context)
         {
             _context = context;
-
-            if (!_context.Items.Any())
-            {
-                _context.Items.Add(new SomeItem {Name = "umni golub"});
-                _context.SaveChanges();
-            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SomeItem>> GetTodoItem(long id)
+        //TODO :
+        public async Task<ActionResult> GetTodoItem(Guid id)
         {
             SomeItem item = await _context.Items.FindAsync(id);
             if (item == null)
+            {
                 return NotFound();
-            return item;
+            }
+
+            return Ok(item);
         }
     }
 }
