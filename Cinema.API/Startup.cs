@@ -19,7 +19,7 @@ namespace Cinema.API
     public class Startup
     {
 
-        public readonly ILogger _logger;
+        private readonly ILogger _logger;
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;

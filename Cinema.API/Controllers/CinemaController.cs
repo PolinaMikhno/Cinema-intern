@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Cinema.API.Models;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cinema.API.Controllers
 {
@@ -13,17 +10,14 @@ namespace Cinema.API.Controllers
     public class CinemaController : Controller
     {
         private readonly CinemaContext _context;
-        private readonly ILogger _logger;
 
-        public CinemaController(CinemaContext context, ILogger<CinemaController> logger)
+        public CinemaController(CinemaContext context)
         {
-            
             _context = context;
-            _logger = logger;
 
             if (!_context.Items.Any())
             {
-                _context.Items.Add(new SomeItem{Name = "atmta"});
+                _context.Items.Add(new SomeItem {Name = "umni golub"});
                 _context.SaveChanges();
             }
         }
@@ -31,7 +25,6 @@ namespace Cinema.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SomeItem>> GetTodoItem(long id)
         {
-            _logger.LogInformation("GETTODOITEM CALLED ALIO");
             SomeItem item = await _context.Items.FindAsync(id);
             if (item == null)
                 return NotFound();
