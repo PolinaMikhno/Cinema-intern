@@ -39,9 +39,7 @@ namespace Cinema.API
                     TermsOfService = new Uri("https://example.com/terms")
                 });
             });
-            
-            //services.AddSingleton(Log.Logger);
-            
+
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen
@@ -87,13 +85,6 @@ namespace Cinema.API
                     });
                 });
             }
-
-            /*app.UseStatusCodePages(async context =>
-            {
-                context.HttpContext.Response.ContentType = "text/plain";
-                await context.HttpContext.Response.WriteAsync(
-                    $"Status code page, status code: {context.HttpContext.Response.StatusCode}");
-            });*/
 
             app.UseHttpsRedirection();
 

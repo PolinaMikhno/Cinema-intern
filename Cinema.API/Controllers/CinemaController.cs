@@ -17,7 +17,7 @@ namespace Cinema.API.Controllers
         }
 
         [HttpGet("{id}")]
-        //TODO :
+        //TODO : remove
         public async Task<ActionResult> GetTodoItem(Guid id)
         {
             SomeItem item = await _context.Items.FindAsync(id);
