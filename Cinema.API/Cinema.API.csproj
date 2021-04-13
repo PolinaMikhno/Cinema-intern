@@ -17,5 +17,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cinema.DAL\Cinema.DAL.csproj" />
+  </ItemGroup>
+
 
 </Project>

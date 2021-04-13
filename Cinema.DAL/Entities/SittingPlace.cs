@@ -15,10 +15,10 @@ namespace Cinema.DAL.Entities
          * Y+ ------------ Position + Size
          */ 
         
-        public Vector2 Position;
-        public Vector2 Size;
+        public Vector2 Position { get; set; }
+        public Vector2 Size { get; set; }
         
-        public SittingPlaceType PlaceType;
+        public SittingPlaceType PlaceType { get; set; }
         
     }
 }

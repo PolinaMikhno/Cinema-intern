@@ -41,7 +41,7 @@ namespace Cinema.API
             });
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
+            services.AddDbContext<DatabaseContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen
             services.AddControllers();
         }
