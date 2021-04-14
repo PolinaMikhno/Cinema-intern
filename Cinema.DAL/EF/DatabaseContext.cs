@@ -2,7 +2,7 @@
 using Cinema.DAL.Entities.Sessions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cinema.API.Models
+namespace Cinema.DAL.EF
 {
     public sealed class DatabaseContext : DbContext
     {
@@ -11,6 +11,11 @@ namespace Cinema.API.Models
         public DbSet<Session> Sessions;
         
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
+        public DatabaseContext()
         {
             Database.EnsureCreated();
         }
