@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.DAL.EF
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T: class
+    public class Repository<T> : IRepository<T> where T: class
     {
         private DbContext _context;
         private DbSet<T> _dbSet;
 
 
-        public GenericRepository(DbContext context)
+        public Repository(DbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

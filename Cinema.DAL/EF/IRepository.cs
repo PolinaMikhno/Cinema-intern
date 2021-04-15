@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cinema.DAL.EF
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         void Create(T item);
         T FindById(Guid id);

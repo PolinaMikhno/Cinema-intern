@@ -1,29 +1,9 @@
-﻿namespace Cinema.DAL.Entities
+﻿namespace Cinema.DAL.Util
 {
-    public class SittingPlaceType
+    public enum SittingPlaceType
     {
-        public readonly int Size;
-        public readonly bool IsVip;
-
-        public SittingPlaceType()
-        {
-            Size = 1;
-        }
-
-        public SittingPlaceType(int size)
-        {
-            Size = size;
-        }
-
-        public SittingPlaceType(bool isVip)
-        {
-            IsVip = isVip;
-        }
-
-        public SittingPlaceType(int size, bool isVip)
-        {
-            Size = size;
-            IsVip = isVip;
-        }
+        Single = 0,
+        Double = 1,
+        Vip = 2
     }
 }

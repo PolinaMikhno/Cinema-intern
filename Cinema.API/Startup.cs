@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cinema.API.Models;
+using Cinema.DAL.EF;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,7 @@ namespace Cinema.API
             });
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
+            services.AddDbContext<DatabaseContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen
             services.AddControllers();
         }

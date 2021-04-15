@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Cinema.API.Models;
+﻿using Cinema.DAL.EF;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cinema.API.Controllers
@@ -9,24 +7,12 @@ namespace Cinema.API.Controllers
     [ApiController]
     public class CinemaController : Controller
     {
-        private readonly CinemaContext _context;
+        private readonly DatabaseContext _context;
 
-        public CinemaController(CinemaContext context)
+        public CinemaController(DatabaseContext context)
         {
             _context = context;
         }
-
-        [HttpGet("{id}")]
-        //TODO : remove
-        public async Task<ActionResult> GetTodoItem(Guid id)
-        {
-            SomeItem item = await _context.Items.FindAsync(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(item);
-        }
+        
     }
 }
