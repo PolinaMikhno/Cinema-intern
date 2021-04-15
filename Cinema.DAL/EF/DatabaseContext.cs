@@ -1,4 +1,5 @@
-﻿using Cinema.DAL.Entities;
+﻿using Cinema.DAL.Auth;
+using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,9 @@ namespace Cinema.DAL.EF
         public DbSet<Film> Films;
         public DbSet<Theater> Theaters;
         public DbSet<Session> Sessions;
-        
+
+        public DbSet<User> Users;
+
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
             Database.EnsureCreated();

@@ -5,11 +5,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cinema.API.Models;
+using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
@@ -25,7 +28,7 @@ namespace Cinema.API
             _logger = logger;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,6 +43,29 @@ namespace Cinema.API
                     TermsOfService = new Uri("https://example.com/terms")
                 });
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    // TODO:
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+
+                        ValidIssuer = AuthOptions.Issuer,
+
+                        ValidateAudience = true,
+
+                        ValidAudience = AuthOptions.Audience,
+
+                        ValidateLifetime = true,
+
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DatabaseContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
@@ -56,7 +82,6 @@ namespace Cinema.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
-            
 
             if (env.IsDevelopment())
             {
@@ -73,7 +98,7 @@ namespace Cinema.API
                         context.Response.StatusCode = 500;
                         context.Response.ContentType = "application/json";
                         var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                        
+
                         if (contextFeature != null)
                         {
                             _logger.LogError($"Something went wrong: {contextFeature.Error}");

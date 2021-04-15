@@ -11,10 +11,10 @@ namespace Cinema.DAL.EF
         private DbSet<T> _dbSet;
 
 
-        public Repository(DbContext context)
+        public Repository()
         {
-            _context = context;
-            _dbSet = context.Set<T>();
+            _context = new DatabaseContext();
+            _dbSet = _context.Set<T>();
         }
         
         public void Create(T item)

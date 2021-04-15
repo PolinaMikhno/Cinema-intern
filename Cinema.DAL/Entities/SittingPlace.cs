@@ -1,4 +1,4 @@
-﻿using Cinema.DAL.Util;
+﻿using Cinema.DAL.Enums;
 
 namespace Cinema.DAL.Entities
 {
