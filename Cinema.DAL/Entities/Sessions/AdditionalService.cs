@@ -3,8 +3,8 @@
     public class AdditionalService
     {
 
-        public string Name;
-        public string Description;
-        public decimal Price;
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
     }
 }

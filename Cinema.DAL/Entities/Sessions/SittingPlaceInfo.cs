@@ -2,7 +2,7 @@
 {
     public class SittingPlaceInfo
     {
-        public SittingPlace Place;
-        public decimal Price;
+        public SittingPlace Place { get; set; }
+        public decimal Price { get; set; }
     }
 }

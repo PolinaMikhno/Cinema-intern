@@ -4,10 +4,10 @@ namespace Cinema.DAL.Entities
 {
     public class SittingPlace
     {
-        public int Number;
-        public int Row;
+        public int Number { get; set; }
+        public int Row { get; set; }
 
-        public SittingPlaceType SittingPlaceType;
+        public SittingPlaceType SittingPlaceType { get; set; }
 
     }
 }
