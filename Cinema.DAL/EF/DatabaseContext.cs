@@ -2,6 +2,7 @@
 using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 using Microsoft.EntityFrameworkCore;
+using User = Cinema.DAL.Auth.User;
 
 namespace Cinema.DAL.EF
 {
@@ -15,12 +16,12 @@ namespace Cinema.DAL.EF
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         public DatabaseContext()
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
     }
 }

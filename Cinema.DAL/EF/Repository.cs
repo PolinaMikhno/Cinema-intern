@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cinema.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.DAL.EF
