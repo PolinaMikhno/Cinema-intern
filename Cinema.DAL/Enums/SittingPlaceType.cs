@@ -1,4 +1,4 @@
-﻿namespace Cinema.DAL.Util
+﻿namespace Cinema.DAL.Enums
 {
     public enum SittingPlaceType
     {

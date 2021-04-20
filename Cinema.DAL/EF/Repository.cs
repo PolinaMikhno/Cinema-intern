@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cinema.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.DAL.EF
@@ -11,10 +12,11 @@ namespace Cinema.DAL.EF
         private DbSet<T> _dbSet;
 
 
-        public Repository(DbContext context)
+        public Repository(CinemaContext cinemaContext)
         {
-            _context = context;
-            _dbSet = context.Set<T>();
+            //_context = new DatabaseContext();
+            _context = cinemaContext;
+            _dbSet = _context.Set<T>();
         }
         
         public void Create(T item)
