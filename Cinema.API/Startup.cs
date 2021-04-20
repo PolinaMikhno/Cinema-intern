@@ -68,7 +68,8 @@ namespace Cinema.API
                 });
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DatabaseContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
+            Console.WriteLine(connectionString);
+            services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen
             services.AddControllers();
         }
@@ -81,7 +82,16 @@ namespace Cinema.API
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+            
+            /*using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var serviceProvider = serviceScope.ServiceProvider;
 
+                using (var context = serviceProvider.GetService<CinemaContext>())
+                {
+                    context?.Database.Migrate();
+                }
+            }*/
 
             if (env.IsDevelopment())
             {
@@ -112,6 +122,8 @@ namespace Cinema.API
                 });
             }
 
+            app.UseAuthentication();
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,4 +1,7 @@
-﻿using Cinema.DAL.EF;
+﻿using System;
+using System.Linq;
+using Cinema.DAL.Auth;
+using Cinema.DAL.EF;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cinema.API.Controllers
@@ -7,12 +10,15 @@ namespace Cinema.API.Controllers
     [ApiController]
     public class CinemaController : Controller
     {
-        private readonly DatabaseContext _context;
+        private readonly CinemaContext _context;
 
-        public CinemaController(DatabaseContext context)
+        private Repository<User> _users;
+
+        public CinemaController(CinemaContext context)
         {
             _context = context;
+            _users = new Repository<User>(context);
+           
         }
-        
     }
 }

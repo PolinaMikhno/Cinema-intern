@@ -8,7 +8,8 @@ namespace Cinema.API.Controllers
     public class ValuesController : Controller
     {
         [Authorize]
-        [Route("getLogin")]
+        [HttpGet]
+        [Route("getlogin")]
         public IActionResult GetLogin()
         {
             return Ok($"Username: {User.Identity.Name}");

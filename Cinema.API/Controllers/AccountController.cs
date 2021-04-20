@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,9 +16,10 @@ namespace Cinema.API.Controllers
     {
         private Repository<User> users;
 
-        public AccountController()
+        public AccountController(CinemaContext context)
         {
-            users = new Repository<User>();
+            users = new Repository<User>(context);
+            
         }
 
         [HttpPost("/token")]
@@ -26,9 +28,9 @@ namespace Cinema.API.Controllers
             var identity = GetIdentity(name, password);
             if (identity == null)
             {
-                return BadRequest(new { errorText = "Invalid username or password." });
+                return BadRequest(new {errorText = "Invalid username or password."});
             }
- 
+
             DateTime now = DateTime.UtcNow;
             JwtSecurityToken jwt = new JwtSecurityToken(
                 AuthOptions.Issuer,
@@ -36,16 +38,24 @@ namespace Cinema.API.Controllers
                 notBefore: now,
                 claims: identity.Claims,
                 expires: now.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
+                    SecurityAlgorithms.HmacSha256));
             string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
- 
+
             var response = new
             {
                 access_token = encodedJwt,
                 username = identity.Name
             };
- 
+
             return Json(response);
+        }
+
+        [Authorize(Roles = "User")]
+        [HttpPost("/tokentest")]
+        public ActionResult TokenTest()
+        {
+            return Ok("Ok(Ok)");
         }
 
         private ClaimsIdentity GetIdentity(string name, string password)
