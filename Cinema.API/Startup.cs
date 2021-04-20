@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -65,10 +66,25 @@ namespace Cinema.API
 
                         ValidateIssuerSigningKey = true,
                     };
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
                 });
 
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("RequireAdminRights", policy => policy.RequireRole("Admin"));
+                    options.AddPolicy("RequireCinemaAdminRights", policy => policy.RequireRole("CinemaAdmin"));
+                    //TODO: ???
+                    options.AddPolicy("RequireUserRights", policy => policy.RequireRole("User"));
+                }
+            );
+
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine(connectionString);
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen
             services.AddControllers();
@@ -82,7 +98,7 @@ namespace Cinema.API
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
-            
+
             /*using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var serviceProvider = serviceScope.ServiceProvider;
@@ -123,7 +139,7 @@ namespace Cinema.API
             }
 
             app.UseAuthentication();
-            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
