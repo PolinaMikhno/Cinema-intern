@@ -18,6 +18,11 @@ namespace Cinema.DAL.EF
             _context = cinemaContext;
             _dbSet = _context.Set<T>();
         }
+
+        public Repository()
+        {
+            _context = new CinemaContext();
+        }
         
         public void Create(T item)
         {

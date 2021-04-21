@@ -11,6 +11,6 @@ namespace Cinema.DAL.Entities.Sessions
         public Theater Theater { get; set; } // where (banana)
         public Hall Hall { get; set; } // where in theater
         public DateTime Start { get; set; } // when (banana)
-        public IEnumerable<AdditionalService> AdditionalServices { get; set; }
+        public IEnumerable<AdditionalProduct> AdditionalServices { get; set; }
     }
 }

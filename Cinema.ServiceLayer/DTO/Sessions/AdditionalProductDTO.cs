@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Cinema.DAL.Entities.Sessions
+namespace Cinema.Services.DTO.Sessions
 {
-    public class AdditionalService
+    public class AdditionalProductDTO
     {
         public Guid Id { get; set; }
 

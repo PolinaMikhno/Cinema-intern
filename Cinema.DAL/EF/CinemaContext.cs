@@ -11,9 +11,16 @@ namespace Cinema.DAL.EF
         public DbSet<Theater> Theaters;
         public DbSet<Session> Sessions;
 
+        public DbSet<Ticket> Tickets;
+        
         public DbSet<User> Users;
 
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
+        public CinemaContext()
         {
             Database.EnsureCreated();
         }
@@ -24,10 +31,11 @@ namespace Cinema.DAL.EF
             modelBuilder.Entity<Theater>().ToTable("Theaters");
             modelBuilder.Entity<Session>().ToTable("Sessions");
             modelBuilder.Entity<User>().ToTable("Users");
-
-            modelBuilder.Entity<AdditionalService>().ToTable("AdditionalServices");
+            
+            modelBuilder.Entity<AdditionalProduct>().ToTable("AdditionalServices");
             modelBuilder.Entity<Hall>().ToTable("Halls");
             modelBuilder.Entity<SittingPlace>().ToTable("SittingPlaces");
+            modelBuilder.Entity<Ticket>().ToTable("Tickets");
 
         }
     }
