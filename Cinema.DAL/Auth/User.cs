@@ -13,6 +13,6 @@ namespace Cinema.DAL.Auth
         // cinema admin???
         public string Role { get; set; }
 
-        public IEnumerable<Ticket> Tickets { get; set; }
+        public IEnumerable<TicketEntity> Tickets { get; set; }
     }
 }

@@ -9,33 +9,33 @@ namespace Cinema.Services.Services
 {
     public class SittingPlaceService
     {
-        private Repository<SittingPlaceDTO> _repository;
+        private Repository<SittingPlaceModel> _repository;
 
         public SittingPlaceService()
         {
-            _repository = new Repository<SittingPlaceDTO>();
+            _repository = new Repository<SittingPlaceModel>();
         }
 
-        public IEnumerable<SittingPlaceDTO> Get()
+        public IEnumerable<SittingPlaceModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<SittingPlaceDTO> Get(Func<SittingPlaceDTO, bool> predicate)
+        public IEnumerable<SittingPlaceModel> Get(Func<SittingPlaceModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(SittingPlaceDTO sittingPlaceDto)
+        public bool Create(SittingPlaceModel sittingPlaceModel)
         {
-            if (!IsSittingPlaceDTOValid(sittingPlaceDto))
+            if (!IsSittingPlaceDTOValid(sittingPlaceModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(sittingPlaceDto);
+                _repository.Create(sittingPlaceModel);
             }
             catch (Exception e)
             {
@@ -46,16 +46,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(SittingPlaceDTO sittingPlaceDto)
+        public bool Remove(SittingPlaceModel sittingPlaceModel)
         {
-            if (!IsSittingPlaceDTOValid(sittingPlaceDto))
+            if (!IsSittingPlaceDTOValid(sittingPlaceModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(sittingPlaceDto);
+                _repository.Remove(sittingPlaceModel);
             }
             catch (Exception e)
             {
@@ -66,16 +66,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(SittingPlaceDTO sittingPlaceDto)
+        public bool Update(SittingPlaceModel sittingPlaceModel)
         {
-            if (!IsSittingPlaceDTOValid(sittingPlaceDto))
+            if (!IsSittingPlaceDTOValid(sittingPlaceModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(sittingPlaceDto);
+                _repository.Update(sittingPlaceModel);
             }
             catch (Exception e)
             {
@@ -86,9 +86,9 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        private bool IsSittingPlaceDTOValid(SittingPlaceDTO sittingPlaceDto)
+        private bool IsSittingPlaceDTOValid(SittingPlaceModel sittingPlaceModel)
         {
-            if (sittingPlaceDto != null && sittingPlaceDto.Number > 0 && sittingPlaceDto.Row > 0)
+            if (sittingPlaceModel != null && sittingPlaceModel.Number > 0 && sittingPlaceModel.Row > 0)
             {
                 return true;
             }

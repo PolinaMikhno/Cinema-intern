@@ -11,33 +11,33 @@ namespace Cinema.Services.Services
 {
     public class TicketService
     {
-        private Repository<TicketDTO> _repository;
+        private Repository<TicketModel> _repository;
 
         public TicketService()
         {
-            _repository = new Repository<TicketDTO>();
+            _repository = new Repository<TicketModel>();
         }
 
-        public IEnumerable<TicketDTO> Get()
+        public IEnumerable<TicketModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<TicketDTO> Get(Func<TicketDTO, bool> predicate)
+        public IEnumerable<TicketModel> Get(Func<TicketModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(TicketDTO ticketDTO)
+        public bool Create(TicketModel ticketModel)
         {
-            if (!IsTicketDTOValid(ticketDTO))
+            if (!IsTicketDTOValid(ticketModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(ticketDTO);
+                _repository.Create(ticketModel);
             }
             catch (Exception e)
             {
@@ -48,16 +48,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(TicketDTO ticketDTO)
+        public bool Remove(TicketModel ticketModel)
         {
-            if (!IsTicketDTOValid(ticketDTO))
+            if (!IsTicketDTOValid(ticketModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(ticketDTO);
+                _repository.Remove(ticketModel);
             }
             catch (Exception e)
             {
@@ -68,16 +68,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(TicketDTO ticketDTO)
+        public bool Update(TicketModel ticketModel)
         {
-            if (!IsTicketDTOValid(ticketDTO))
+            if (!IsTicketDTOValid(ticketModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(ticketDTO);
+                _repository.Update(ticketModel);
             }
             catch (Exception e)
             {
@@ -88,9 +88,9 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        private bool IsTicketDTOValid(TicketDTO ticketDTO)
+        private bool IsTicketDTOValid(TicketModel ticketModel)
         {
-            if (ticketDTO.Session != null && ticketDTO.Places.Any() && ticketDTO.Price > 0)
+            if (ticketModel.SessionEntity != null && ticketModel.Places.Any() && ticketModel.Price > 0)
             {
                 return true;
             }

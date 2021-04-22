@@ -10,33 +10,33 @@ namespace Cinema.Services.Services
 {
     public class SessionService
     {
-        private Repository<SessionDTO> _repository;
+        private Repository<SessionModel> _repository;
 
         public SessionService()
         {
-            _repository = new Repository<SessionDTO>();
+            _repository = new Repository<SessionModel>();
         }
 
-        public IEnumerable<SessionDTO> Get()
+        public IEnumerable<SessionModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<SessionDTO> Get(Func<SessionDTO, bool> predicate)
+        public IEnumerable<SessionModel> Get(Func<SessionModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(SessionDTO sessionDto)
+        public bool Create(SessionModel sessionModel)
         {
-            if (!IsSessionDTOValid(sessionDto))
+            if (!IsSessionDTOValid(sessionModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(sessionDto);
+                _repository.Create(sessionModel);
             }
             catch (Exception e)
             {
@@ -47,16 +47,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(SessionDTO sessionDto)
+        public bool Remove(SessionModel sessionModel)
         {
-            if (!IsSessionDTOValid(sessionDto))
+            if (!IsSessionDTOValid(sessionModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(sessionDto);
+                _repository.Remove(sessionModel);
             }
             catch (Exception e)
             {
@@ -67,16 +67,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(SessionDTO sessionDto)
+        public bool Update(SessionModel sessionModel)
         {
-            if (!IsSessionDTOValid(sessionDto))
+            if (!IsSessionDTOValid(sessionModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(sessionDto);
+                _repository.Update(sessionModel);
             }
             catch (Exception e)
             {
@@ -87,18 +87,18 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public IEnumerable<SessionDTO> GetFutureSessionDTOs()
+        public IEnumerable<SessionModel> GetFutureSessionDTOs()
         {
             DateTime now = DateTime.Now;
             return _repository.Get(s => DateTime.Compare(s.Start, now) > 0);
         }
 
 
-        private bool IsSessionDTOValid(SessionDTO sessionDto)
+        private bool IsSessionDTOValid(SessionModel sessionModel)
         {
-            if (sessionDto != null && sessionDto.Theater != null && sessionDto.Hall != null)
+            if (sessionModel != null && sessionModel.TheaterEntity != null && sessionModel.HallEntity != null)
             {
-                return sessionDto.Theater.Halls.Contains(sessionDto.Hall) && sessionDto.Film != null;
+                return sessionModel.TheaterEntity.Halls.Contains(sessionModel.HallEntity) && sessionModel.FilmEntity != null;
             }
 
             return false;

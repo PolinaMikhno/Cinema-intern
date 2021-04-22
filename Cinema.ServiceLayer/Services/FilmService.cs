@@ -8,33 +8,33 @@ namespace Cinema.Services.Services
 {
     public class FilmService
     {
-        private Repository<FilmDTO> _repository;
+        private Repository<FilmModel> _repository;
 
         public FilmService()
         {
-            _repository = new Repository<FilmDTO>();
+            _repository = new Repository<FilmModel>();
         }
 
-        public IEnumerable<FilmDTO> Get()
+        public IEnumerable<FilmModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<FilmDTO> Get(Func<FilmDTO, bool> predicate)
+        public IEnumerable<FilmModel> Get(Func<FilmModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(FilmDTO filmDto)
+        public bool Create(FilmModel filmModel)
         {
-            if (!IsFilmDTOValid(filmDto))
+            if (!IsFilmDTOValid(filmModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(filmDto);
+                _repository.Create(filmModel);
             }
             catch (Exception e)
             {
@@ -45,16 +45,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(FilmDTO filmDto)
+        public bool Remove(FilmModel filmModel)
         {
-            if (!IsFilmDTOValid(filmDto))
+            if (!IsFilmDTOValid(filmModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(filmDto);
+                _repository.Remove(filmModel);
             }
             catch (Exception e)
             {
@@ -65,16 +65,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(FilmDTO filmDto)
+        public bool Update(FilmModel filmModel)
         {
-            if (!IsFilmDTOValid(filmDto))
+            if (!IsFilmDTOValid(filmModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(filmDto);
+                _repository.Update(filmModel);
             }
             catch (Exception e)
             {
@@ -87,9 +87,9 @@ namespace Cinema.Services.Services
 
 
 
-        private bool IsFilmDTOValid(FilmDTO filmDto)
+        private bool IsFilmDTOValid(FilmModel filmModel)
         {
-            return DateTime.Compare(filmDto.Start, filmDto.End) < 0;
+            return DateTime.Compare(filmModel.Start, filmModel.End) < 0;
         }
     }
 }

@@ -8,33 +8,33 @@ namespace Cinema.Services.Services
 {
     public class AdditionalProductService
     {
-        private Repository<AdditionalProductDTO> _repository;
+        private Repository<AdditionalProductModel> _repository;
 
         public AdditionalProductService()
         {
-            _repository = new Repository<AdditionalProductDTO>();
+            _repository = new Repository<AdditionalProductModel>();
         }
 
-        public IEnumerable<AdditionalProductDTO> Get()
+        public IEnumerable<AdditionalProductModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<AdditionalProductDTO> Get(Func<AdditionalProductDTO, bool> predicate)
+        public IEnumerable<AdditionalProductModel> Get(Func<AdditionalProductModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(AdditionalProductDTO additionalProductDto)
+        public bool Create(AdditionalProductModel additionalProductModel)
         {
-            if (!IsAdditionalProductDTOValid(additionalProductDto))
+            if (!IsAdditionalProductDTOValid(additionalProductModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(additionalProductDto);
+                _repository.Create(additionalProductModel);
             }
             catch (Exception e)
             {
@@ -45,16 +45,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(AdditionalProductDTO additionalProductDto)
+        public bool Remove(AdditionalProductModel additionalProductModel)
         {
-            if (!IsAdditionalProductDTOValid(additionalProductDto))
+            if (!IsAdditionalProductDTOValid(additionalProductModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(additionalProductDto);
+                _repository.Remove(additionalProductModel);
             }
             catch (Exception e)
             {
@@ -65,16 +65,17 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(AdditionalProductDTO additionalProductDto)
+        public bool Update(AdditionalProductModel additionalProductModel)
         {
-            if (!IsAdditionalProductDTOValid(additionalProductDto))
+            
+            if (!IsAdditionalProductDTOValid(additionalProductModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(additionalProductDto);
+                _repository.Update(additionalProductModel);
             }
             catch (Exception e)
             {
@@ -86,9 +87,9 @@ namespace Cinema.Services.Services
         }
 
 
-        private bool IsAdditionalProductDTOValid(AdditionalProductDTO additionalProductDto)
+        private bool IsAdditionalProductDTOValid(AdditionalProductModel additionalProductModel)
         {
-            return additionalProductDto.Price > 0;
+            return additionalProductModel.Price > 0;
         }
     }
 }

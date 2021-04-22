@@ -9,33 +9,33 @@ namespace Cinema.Services.Services
 {
     public class HallService
     {
-        private Repository<HallDTO> _repository;
+        private Repository<HallModel> _repository;
 
         public HallService()
         {
-            _repository = new Repository<HallDTO>();
+            _repository = new Repository<HallModel>();
         }
 
-        public IEnumerable<HallDTO> Get()
+        public IEnumerable<HallModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<HallDTO> Get(Func<HallDTO, bool> predicate)
+        public IEnumerable<HallModel> Get(Func<HallModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(HallDTO hallDto)
+        public bool Create(HallModel hallModel)
         {
-            if (!IsHallDTOValid(hallDto))
+            if (!IsHallDTOValid(hallModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(hallDto);
+                _repository.Create(hallModel);
             }
             catch (Exception e)
             {
@@ -46,16 +46,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(HallDTO hallDto)
+        public bool Remove(HallModel hallModel)
         {
-            if (!IsHallDTOValid(hallDto))
+            if (!IsHallDTOValid(hallModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(hallDto);
+                _repository.Remove(hallModel);
             }
             catch (Exception e)
             {
@@ -66,16 +66,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(HallDTO hallDto)
+        public bool Update(HallModel hallModel)
         {
-            if (!IsHallDTOValid(hallDto))
+            if (!IsHallDTOValid(hallModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(hallDto);
+                _repository.Update(hallModel);
             }
             catch (Exception e)
             {
@@ -86,9 +86,9 @@ namespace Cinema.Services.Services
             return true;
         }
         
-        private bool IsHallDTOValid(HallDTO hallDto)
+        private bool IsHallDTOValid(HallModel hallModel)
         {
-            return hallDto.Places.Any();
+            return hallModel.Places.Any();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Cinema.Services.DTO
+namespace Cinema.DAL.Entities
 {
-    public class FilmDTO
+    public class FilmEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -10,5 +10,6 @@ namespace Cinema.Services.DTO
         
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        
     }
 }

@@ -9,33 +9,33 @@ namespace Cinema.Services.Services
 {
     public class TheaterService
     {
-        private Repository<TheaterDTO> _repository;
+        private Repository<TheaterModel> _repository;
 
         public TheaterService()
         {
-            _repository = new Repository<TheaterDTO>();
+            _repository = new Repository<TheaterModel>();
         }
 
-        public IEnumerable<TheaterDTO> Get()
+        public IEnumerable<TheaterModel> Get()
         {
             return _repository.Get();
         }
 
-        public IEnumerable<TheaterDTO> Get(Func<TheaterDTO, bool> predicate)
+        public IEnumerable<TheaterModel> Get(Func<TheaterModel, bool> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public bool Create(TheaterDTO theaterDto)
+        public bool Create(TheaterModel theaterModel)
         {
-            if (!IsTheaterDTOValid(theaterDto))
+            if (!IsTheaterDTOValid(theaterModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Create(theaterDto);
+                _repository.Create(theaterModel);
             }
             catch (Exception e)
             {
@@ -46,16 +46,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Remove(TheaterDTO theaterDto)
+        public bool Remove(TheaterModel theaterModel)
         {
-            if (!IsTheaterDTOValid(theaterDto))
+            if (!IsTheaterDTOValid(theaterModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Remove(theaterDto);
+                _repository.Remove(theaterModel);
             }
             catch (Exception e)
             {
@@ -66,16 +66,16 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        public bool Update(TheaterDTO theaterDto)
+        public bool Update(TheaterModel theaterModel)
         {
-            if (!IsTheaterDTOValid(theaterDto))
+            if (!IsTheaterDTOValid(theaterModel))
             {
                 return false;
             }
 
             try
             {
-                _repository.Update(theaterDto);
+                _repository.Update(theaterModel);
             }
             catch (Exception e)
             {
@@ -86,10 +86,10 @@ namespace Cinema.Services.Services
             return true;
         }
 
-        private bool IsTheaterDTOValid(TheaterDTO theaterDto)
+        private bool IsTheaterDTOValid(TheaterModel theaterModel)
         {
 
-            return theaterDto.Halls.Any();
+            return theaterModel.Halls.Any();
         }
     }
 }

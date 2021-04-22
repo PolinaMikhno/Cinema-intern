@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cinema.DAL\Cinema.DAL.csproj" />
+    <ProjectReference Include="..\Cinema.ServiceLayer\Cinema.ServiceLayer.csproj" />
   </ItemGroup>
 
 

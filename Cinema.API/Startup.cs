@@ -7,6 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Cinema.API.Models;
 using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
+using Cinema.DAL.Entities.Sessions;
+using Cinema.Services.DTO;
+using Cinema.Services.DTO.Sessions;
+using Cinema.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -83,7 +87,26 @@ namespace Cinema.API
                     options.AddPolicy("RequireUserRights", policy => policy.RequireRole("User"));
                 }
             );
+            services.AddScoped<IRepository<AdditionalProductModel>, Repository<AdditionalProductModel>>();
+            services.AddScoped<IRepository<SessionModel>, Repository<SessionModel>>();
+            services.AddScoped<IRepository<SittingPlaceInfoModel>, Repository<SittingPlaceInfoModel>>();
+            services.AddScoped<IRepository<FilmModel>, Repository<FilmModel>>();
+            services.AddScoped<IRepository<HallModel>, Repository<HallModel>>();
+            services.AddScoped<IRepository<SittingPlaceModel>, Repository<SittingPlaceModel>>();
+            services.AddScoped<IRepository<TheaterModel>, Repository<TheaterModel>>();
+            services.AddScoped<IRepository<TicketModel>, Repository<TicketModel>>();
 
+            services.AddScoped<AdditionalProductService>();
+            services.AddScoped<FilmService>();
+            services.AddScoped<HallService>();
+            services.AddScoped<SessionService>();
+            services.AddScoped<SittingPlaceInfoService>();
+            services.AddScoped<SittingPlaceService>();
+            services.AddScoped<TheaterService>();
+            services.AddScoped<TicketService>();
+            services.AddScoped<AdditionalProductService>();
+            
+            
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen

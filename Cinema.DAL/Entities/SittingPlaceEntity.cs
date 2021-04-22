@@ -1,9 +1,9 @@
 ﻿using System;
 using Cinema.DAL.Enums;
 
-namespace Cinema.Services.DTO
+namespace Cinema.DAL.Entities
 {
-    public class SittingPlaceDTO
+    public class SittingPlaceEntity
     {
         public Guid Id { get; set; }
 
