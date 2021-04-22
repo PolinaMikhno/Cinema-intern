@@ -27,11 +27,6 @@ namespace Cinema.Services.Services
 
         public bool Create(AdditionalProductModel additionalProductModel)
         {
-            if (!IsAdditionalProductDTOValid(additionalProductModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Create(additionalProductModel);
@@ -47,11 +42,6 @@ namespace Cinema.Services.Services
 
         public bool Remove(AdditionalProductModel additionalProductModel)
         {
-            if (!IsAdditionalProductDTOValid(additionalProductModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Remove(additionalProductModel);
@@ -67,12 +57,6 @@ namespace Cinema.Services.Services
 
         public bool Update(AdditionalProductModel additionalProductModel)
         {
-            
-            if (!IsAdditionalProductDTOValid(additionalProductModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Update(additionalProductModel);
@@ -84,12 +68,6 @@ namespace Cinema.Services.Services
             }
 
             return true;
-        }
-
-
-        private bool IsAdditionalProductDTOValid(AdditionalProductModel additionalProductModel)
-        {
-            return additionalProductModel.Price > 0;
         }
     }
 }

@@ -27,11 +27,6 @@ namespace Cinema.Services.Services
 
         public bool Create(SittingPlaceInfoModel sittingPlaceInfoModel)
         {
-            if (!IsSittingPlaceInfoDTOValid(sittingPlaceInfoModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Create(sittingPlaceInfoModel);
@@ -47,11 +42,6 @@ namespace Cinema.Services.Services
 
         public bool Remove(SittingPlaceInfoModel sittingPlaceInfoModel)
         {
-            if (!IsSittingPlaceInfoDTOValid(sittingPlaceInfoModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Remove(sittingPlaceInfoModel);
@@ -67,11 +57,6 @@ namespace Cinema.Services.Services
 
         public bool Update(SittingPlaceInfoModel sittingPlaceInfoModel)
         {
-            if (!IsSittingPlaceInfoDTOValid(sittingPlaceInfoModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Update(sittingPlaceInfoModel);
@@ -83,12 +68,6 @@ namespace Cinema.Services.Services
             }
 
             return true;
-        }
-
-
-        private bool IsSittingPlaceInfoDTOValid(SittingPlaceInfoModel sittingPlaceInfoModel)
-        {
-            return sittingPlaceInfoModel.Price > 0;
         }
     }
 }

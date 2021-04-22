@@ -88,7 +88,6 @@ namespace Cinema.Services.Services
 
         private bool IsTheaterDTOValid(TheaterModel theaterModel)
         {
-
             return theaterModel.Halls.Any();
         }
     }

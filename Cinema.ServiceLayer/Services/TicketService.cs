@@ -90,7 +90,7 @@ namespace Cinema.Services.Services
 
         private bool IsTicketDTOValid(TicketModel ticketModel)
         {
-            if (ticketModel.SessionEntity != null && ticketModel.Places.Any() && ticketModel.Price > 0)
+            if (ticketModel.Places.Any())
             {
                 return true;
             }

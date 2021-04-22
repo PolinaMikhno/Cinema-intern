@@ -29,10 +29,6 @@ namespace Cinema.Services.Services
 
         public bool Create(SessionModel sessionModel)
         {
-            if (!IsSessionDTOValid(sessionModel))
-            {
-                return false;
-            }
 
             try
             {
@@ -49,11 +45,6 @@ namespace Cinema.Services.Services
 
         public bool Remove(SessionModel sessionModel)
         {
-            if (!IsSessionDTOValid(sessionModel))
-            {
-                return false;
-            }
-
             try
             {
                 _repository.Remove(sessionModel);
@@ -69,10 +60,6 @@ namespace Cinema.Services.Services
 
         public bool Update(SessionModel sessionModel)
         {
-            if (!IsSessionDTOValid(sessionModel))
-            {
-                return false;
-            }
 
             try
             {
@@ -93,15 +80,6 @@ namespace Cinema.Services.Services
             return _repository.Get(s => DateTime.Compare(s.Start, now) > 0);
         }
 
-
-        private bool IsSessionDTOValid(SessionModel sessionModel)
-        {
-            if (sessionModel != null && sessionModel.TheaterEntity != null && sessionModel.HallEntity != null)
-            {
-                return sessionModel.TheaterEntity.Halls.Contains(sessionModel.HallEntity) && sessionModel.FilmEntity != null;
-            }
-
-            return false;
-        }
+        
     }
 }
