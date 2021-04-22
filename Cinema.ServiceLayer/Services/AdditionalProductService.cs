@@ -6,13 +6,13 @@ using Serilog;
 
 namespace Cinema.Services.Services
 {
-    public class AdditionalProductService
+    public class AdditionalProductService: IService<AdditionalProductModel>
     {
         private Repository<AdditionalProductModel> _repository;
 
-        public AdditionalProductService()
+        public AdditionalProductService(Repository<AdditionalProductModel> repository)
         {
-            _repository = new Repository<AdditionalProductModel>();
+            _repository = repository;
         }
 
         public IEnumerable<AdditionalProductModel> Get()

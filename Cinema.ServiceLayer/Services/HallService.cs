@@ -7,13 +7,13 @@ using Serilog;
 
 namespace Cinema.Services.Services
 {
-    public class HallService
+    public class HallService: IService<HallModel>
     {
         private Repository<HallModel> _repository;
 
-        public HallService()
+        public HallService(Repository<HallModel> repository)
         {
-            _repository = new Repository<HallModel>();
+            _repository = repository;
         }
 
         public IEnumerable<HallModel> Get()

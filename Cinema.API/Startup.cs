@@ -96,17 +96,17 @@ namespace Cinema.API
             services.AddScoped<IRepository<TheaterModel>, Repository<TheaterModel>>();
             services.AddScoped<IRepository<TicketModel>, Repository<TicketModel>>();
 
-            services.AddScoped<AdditionalProductService>();
-            services.AddScoped<FilmService>();
-            services.AddScoped<HallService>();
-            services.AddScoped<SessionService>();
-            services.AddScoped<SittingPlaceInfoService>();
-            services.AddScoped<SittingPlaceService>();
-            services.AddScoped<TheaterService>();
-            services.AddScoped<TicketService>();
-            services.AddScoped<AdditionalProductService>();
-            
-            
+            services.AddScoped<IService<AdditionalProductModel>, AdditionalProductService>();
+            services.AddScoped<IService<FilmModel>, FilmService>();
+            services.AddScoped<IService<HallModel>, HallService>();
+            services.AddScoped<IService<SessionModel>, SessionService>();
+            services.AddScoped<IService<SittingPlaceInfoModel>, SittingPlaceInfoService>();
+            services.AddScoped<IService<SittingPlaceModel>, SittingPlaceService>();
+            services.AddScoped<IService<TheaterModel>, TheaterService>();
+            services.AddScoped<IService<TicketModel>, TicketService>();
+            services.AddScoped<IService<AdditionalProductModel>, AdditionalProductService>();
+
+
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
             // auto-gen

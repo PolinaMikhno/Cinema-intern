@@ -7,13 +7,13 @@ using Serilog;
 
 namespace Cinema.Services.Services
 {
-    public class SittingPlaceService
+    public class SittingPlaceService: IService<SittingPlaceModel>
     {
         private Repository<SittingPlaceModel> _repository;
 
-        public SittingPlaceService()
+        public SittingPlaceService(Repository<SittingPlaceModel> repository)
         {
-            _repository = new Repository<SittingPlaceModel>();
+            _repository = repository;
         }
 
         public IEnumerable<SittingPlaceModel> Get()

@@ -8,13 +8,13 @@ using Serilog;
 
 namespace Cinema.Services.Services
 {
-    public class SessionService
+    public class SessionService: IService<SessionModel>
     {
         private Repository<SessionModel> _repository;
 
-        public SessionService()
+        public SessionService(Repository<SessionModel> repository)
         {
-            _repository = new Repository<SessionModel>();
+            _repository = repository;
         }
 
         public IEnumerable<SessionModel> Get()

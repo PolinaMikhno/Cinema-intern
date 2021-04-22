@@ -7,13 +7,13 @@ using Serilog;
 
 namespace Cinema.Services.Services
 {
-    public class TheaterService
+    public class TheaterService: IService<TheaterModel>
     {
         private Repository<TheaterModel> _repository;
 
-        public TheaterService()
+        public TheaterService(Repository<TheaterModel> repository)
         {
-            _repository = new Repository<TheaterModel>();
+            _repository = repository;
         }
 
         public IEnumerable<TheaterModel> Get()

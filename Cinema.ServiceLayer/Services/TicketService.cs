@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cinema.DAL.EF;
-using Cinema.DAL.Entities;
-using Cinema.DAL.Entities.Sessions;
 using Cinema.Services.DTO;
 using Serilog;
 
 namespace Cinema.Services.Services
 {
-    public class TicketService
+    public class TicketService : IService<TicketModel>
     {
         private Repository<TicketModel> _repository;
 
-        public TicketService()
+        public TicketService(Repository<TicketModel> repository)
         {
-            _repository = new Repository<TicketModel>();
+            _repository = repository;
         }
 
         public IEnumerable<TicketModel> Get()
