@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Cinema.DAL.Entities;
 
 namespace Cinema.DAL.Auth
 {
@@ -10,5 +12,7 @@ namespace Cinema.DAL.Auth
         // admin, user
         // cinema admin???
         public string Role { get; set; }
+
+        public IEnumerable<TicketEntity> Tickets { get; set; }
     }
 }

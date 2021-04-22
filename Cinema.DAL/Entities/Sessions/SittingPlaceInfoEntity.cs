@@ -2,10 +2,10 @@
 
 namespace Cinema.DAL.Entities.Sessions
 {
-    public class SittingPlaceInfo
+    public class SittingPlaceInfoEntity
     {
         public Guid Id { get; set; }
-        public SittingPlace Place { get; set; }
+        public SittingPlaceEntity PlaceEntity { get; set; }
         public decimal Price { get; set; }
     }
 }

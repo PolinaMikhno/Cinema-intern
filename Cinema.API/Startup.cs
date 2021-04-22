@@ -7,6 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Cinema.API.Models;
 using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
+using Cinema.DAL.Entities.Sessions;
+using Cinema.Services.DTO;
+using Cinema.Services.DTO.Sessions;
+using Cinema.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -83,6 +87,25 @@ namespace Cinema.API
                     options.AddPolicy("RequireUserRights", policy => policy.RequireRole("User"));
                 }
             );
+            services.AddScoped<IRepository<AdditionalProductModel>, Repository<AdditionalProductModel>>();
+            services.AddScoped<IRepository<SessionModel>, Repository<SessionModel>>();
+            services.AddScoped<IRepository<SittingPlaceInfoModel>, Repository<SittingPlaceInfoModel>>();
+            services.AddScoped<IRepository<FilmModel>, Repository<FilmModel>>();
+            services.AddScoped<IRepository<HallModel>, Repository<HallModel>>();
+            services.AddScoped<IRepository<SittingPlaceModel>, Repository<SittingPlaceModel>>();
+            services.AddScoped<IRepository<TheaterModel>, Repository<TheaterModel>>();
+            services.AddScoped<IRepository<TicketModel>, Repository<TicketModel>>();
+
+            services.AddScoped<IService<AdditionalProductModel>, AdditionalProductService>();
+            services.AddScoped<IService<FilmModel>, FilmService>();
+            services.AddScoped<IService<HallModel>, HallService>();
+            services.AddScoped<IService<SessionModel>, SessionService>();
+            services.AddScoped<IService<SittingPlaceInfoModel>, SittingPlaceInfoService>();
+            services.AddScoped<IService<SittingPlaceModel>, SittingPlaceService>();
+            services.AddScoped<IService<TheaterModel>, TheaterService>();
+            services.AddScoped<IService<TicketModel>, TicketService>();
+            services.AddScoped<IService<AdditionalProductModel>, AdditionalProductService>();
+
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));

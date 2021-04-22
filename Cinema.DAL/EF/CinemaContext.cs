@@ -7,10 +7,12 @@ namespace Cinema.DAL.EF
 {
     public sealed class CinemaContext : DbContext
     {
-        public DbSet<Film> Films;
-        public DbSet<Theater> Theaters;
-        public DbSet<Session> Sessions;
+        public DbSet<FilmEntity> Films;
+        public DbSet<TheaterEntity> Theaters;
+        public DbSet<SessionEntity> Sessions;
 
+        public DbSet<TicketEntity> Tickets;
+        
         public DbSet<User> Users;
 
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
@@ -18,16 +20,22 @@ namespace Cinema.DAL.EF
             Database.EnsureCreated();
         }
 
+        public CinemaContext()
+        {
+            Database.EnsureCreated();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Film>().ToTable("Films");
-            modelBuilder.Entity<Theater>().ToTable("Theaters");
-            modelBuilder.Entity<Session>().ToTable("Sessions");
+            modelBuilder.Entity<FilmEntity>().ToTable("Films");
+            modelBuilder.Entity<TheaterEntity>().ToTable("Theaters");
+            modelBuilder.Entity<SessionEntity>().ToTable("Sessions");
             modelBuilder.Entity<User>().ToTable("Users");
-
-            modelBuilder.Entity<AdditionalService>().ToTable("AdditionalServices");
-            modelBuilder.Entity<Hall>().ToTable("Halls");
-            modelBuilder.Entity<SittingPlace>().ToTable("SittingPlaces");
+            
+            modelBuilder.Entity<AdditionalProductEntity>().ToTable("AdditionalServices");
+            modelBuilder.Entity<HallEntity>().ToTable("Halls");
+            modelBuilder.Entity<SittingPlaceEntity>().ToTable("SittingPlaces");
+            modelBuilder.Entity<TicketEntity>().ToTable("Tickets");
 
         }
     }

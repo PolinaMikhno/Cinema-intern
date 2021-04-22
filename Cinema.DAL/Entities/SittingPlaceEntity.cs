@@ -3,7 +3,7 @@ using Cinema.DAL.Enums;
 
 namespace Cinema.DAL.Entities
 {
-    public class SittingPlace
+    public class SittingPlaceEntity
     {
         public Guid Id { get; set; }
 

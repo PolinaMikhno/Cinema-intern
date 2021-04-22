@@ -2,7 +2,7 @@
 
 namespace Cinema.DAL.Entities
 {
-    public class Film
+    public class FilmEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

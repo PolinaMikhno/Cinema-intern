@@ -2,7 +2,7 @@
 
 namespace Cinema.DAL.Entities.Sessions
 {
-    public class AdditionalService
+    public class AdditionalProductEntity
     {
         public Guid Id { get; set; }
 
