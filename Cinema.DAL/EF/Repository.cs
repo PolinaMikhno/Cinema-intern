@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Cinema.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.DAL.EF
 {
-    public class Repository<T> : IRepository<T> where T: class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        private DbContext _context;
-        private DbSet<T> _dbSet;
+        private readonly DbContext _context;
+        private readonly DbSet<T> _dbSet;
 
 
         public Repository(CinemaContext cinemaContext)
         {
-            //_context = new DatabaseContext();
             _context = cinemaContext;
             _dbSet = _context.Set<T>();
         }
@@ -23,38 +23,45 @@ namespace Cinema.DAL.EF
         {
             _context = new CinemaContext();
         }
-        
-        public void Create(T item)
+
+        public async Task<T> CreateAsync(T item)
         {
-            _dbSet.Add(item);
-            _context.SaveChanges();
+            await _dbSet.AddAsync(item);
+            await _context.SaveChangesAsync();
+            // ???
+            return GetAsync(x => x.Equals(item)).Result.First();
         }
 
-        public T FindById(Guid id)
+        public async Task<T> FindByIdAsync(Guid id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public IEnumerable<T> Get()
+        public async Task<T> FindAsync(T item)
         {
-            return _dbSet.AsNoTracking().ToList();
+            return await _dbSet.FindAsync(item);
         }
 
-        public IEnumerable<T> Get(Func<T, bool> predicate)
+        public async Task<IEnumerable<T>> GetAsync()
         {
-            return _dbSet.Where(predicate).ToList();
+            return await Task.Run(() => _dbSet.AsNoTracking().ToList());
         }
 
-        public void Remove(T item)
+        public async Task<IEnumerable<T>> GetAsync(Func<T, bool> predicate)
+        {
+            return await Task.Run(() => _dbSet.Where(predicate));
+        }
+
+        public async void RemoveAsync(T item)
         {
             _dbSet.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(T item)
+        public async void UpdateAsync(T item)
         {
             _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

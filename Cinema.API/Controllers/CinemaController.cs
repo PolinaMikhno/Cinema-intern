@@ -12,13 +12,9 @@ namespace Cinema.API.Controllers
     {
         private readonly CinemaContext _context;
 
-        private Repository<User> _users;
-
         public CinemaController(CinemaContext context)
         {
             _context = context;
-            _users = new Repository<User>(context);
-           
         }
     }
 }

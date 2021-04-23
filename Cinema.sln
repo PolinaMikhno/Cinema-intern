@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cinema.API", "Cinema.API\Ci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinema.DAL", "Cinema.DAL\Cinema.DAL.csproj", "{AB707786-2736-450A-893A-B227BAB293CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinema.ServiceLayer", "Cinema.ServiceLayer\Cinema.ServiceLayer.csproj", "{EFAC07E8-5BA9-4752-9187-B46CC2212AEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinema.BLL", "Cinema.BLL\Cinema.BLL.csproj", "{EFAC07E8-5BA9-4752-9187-B46CC2212AEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
