@@ -60,7 +60,7 @@ namespace Cinema.API.Controllers
 
         private ClaimsIdentity GetIdentity(string name, string password)
         {
-            User user = users.GetAsync(u => u.Name.Equals(name) && u.Password.Equals(password)).Result.FirstOrDefault();
+            User user = users.GetAsync(u => u.Name.Equals(name) && u.PasswordHash.Equals(password)).Result.FirstOrDefault();
             if (user != null)
             {
                 List<Claim> claims = new List<Claim>
