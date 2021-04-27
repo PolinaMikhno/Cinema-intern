@@ -61,7 +61,7 @@ namespace Cinema.API.Controllers
 
         private async Task<ClaimsIdentity> GetIdentity(string name, string password)
         {
-            IEnumerable<User> userEnumerable = await users.GetAsync(u => u.Name.Equals(name) && u.PasswordHash.Equals(password));
+            var userEnumerable = await users.GetAsync(u => u.Name.Equals(name) && u.PasswordHash.Equals(password));
             User user = userEnumerable.FirstOrDefault();
             if (user != null)
             {

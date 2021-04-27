@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using Cinema.API.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -114,7 +115,7 @@ namespace Cinema.API
             services.AddScoped<IService<TheaterModel, TheaterEntity>, Service<TheaterModel, TheaterEntity>>();
             services.AddScoped<IService<TicketModel, TicketEntity>, Service<TicketModel, TicketEntity>>();
             services.AddScoped<IService<AdditionalProductModel, AdditionalProductModel>, Service<AdditionalProductModel, AdditionalProductModel>>();
-
+            
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
