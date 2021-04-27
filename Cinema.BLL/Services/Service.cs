@@ -22,8 +22,8 @@ namespace Cinema.Services.Services
 
         public async Task<IEnumerable<TModel>> GetAsync()
         {
-            IEnumerable<TEntity> entity = await _repository.GetAsync();
-            return _mapper.Map<IEnumerable<TModel>>(entity);
+            IEnumerable<TEntity> entities = await _repository.GetAsync();
+            return _mapper.Map<IEnumerable<TModel>>(entities);
         }
 
         public async Task<IEnumerable<TModel>> GetAsync(Func<TEntity, bool> predicate)

@@ -28,8 +28,8 @@ namespace Cinema.DAL.EF
         {
             await _dbSet.AddAsync(item);
             await _context.SaveChangesAsync();
-            // ???
-            return GetAsync(x => x.Equals(item)).Result.First();
+            IEnumerable<T> dbItemEnumerable = await GetAsync(x => x.Equals(item));
+            return dbItemEnumerable.FirstOrDefault();
         }
 
         public async Task<T> FindByIdAsync(Guid id)
