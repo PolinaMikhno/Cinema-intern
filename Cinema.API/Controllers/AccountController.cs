@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
 using Microsoft.AspNetCore.Authorization;
@@ -23,9 +24,9 @@ namespace Cinema.API.Controllers
         }
 
         [HttpPost("/token")]
-        public ActionResult Token(string name, string password)
+        public async Task<ActionResult> Token(string name, string password)
         {
-            var identity = GetIdentity(name, password);
+            ClaimsIdentity identity = await GetIdentity(name, password);
             if (identity == null)
             {
                 return BadRequest(new {errorText = "Invalid username or password."});
@@ -58,9 +59,10 @@ namespace Cinema.API.Controllers
             return Ok("Ok(Ok)");
         }
 
-        private ClaimsIdentity GetIdentity(string name, string password)
+        private async Task<ClaimsIdentity> GetIdentity(string name, string password)
         {
-            User user = users.Get(u => u.Name.Equals(name) && u.Password.Equals(password)).FirstOrDefault();
+            IEnumerable<User> userEnumerable = await users.GetAsync(u => u.Name.Equals(name) && u.PasswordHash.Equals(password));
+            User user = userEnumerable.FirstOrDefault();
             if (user != null)
             {
                 List<Claim> claims = new List<Claim>

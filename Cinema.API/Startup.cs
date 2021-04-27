@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Cinema.API.Models;
 using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
+using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 using Cinema.Services.DTO;
 using Cinema.Services.DTO.Sessions;
@@ -38,6 +40,13 @@ namespace Cinema.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            MapperConfiguration mapperConfiguration = new MapperConfiguration(configuration =>
+            {
+                configuration.AddProfile(new MappingProfile());
+            });
+            
+            IMapper mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -96,15 +105,15 @@ namespace Cinema.API
             services.AddScoped<IRepository<TheaterModel>, Repository<TheaterModel>>();
             services.AddScoped<IRepository<TicketModel>, Repository<TicketModel>>();
 
-            services.AddScoped<IService<AdditionalProductModel>, AdditionalProductService>();
-            services.AddScoped<IService<FilmModel>, FilmService>();
-            services.AddScoped<IService<HallModel>, HallService>();
-            services.AddScoped<IService<SessionModel>, SessionService>();
-            services.AddScoped<IService<SittingPlaceInfoModel>, SittingPlaceInfoService>();
-            services.AddScoped<IService<SittingPlaceModel>, SittingPlaceService>();
-            services.AddScoped<IService<TheaterModel>, TheaterService>();
-            services.AddScoped<IService<TicketModel>, TicketService>();
-            services.AddScoped<IService<AdditionalProductModel>, AdditionalProductService>();
+            services.AddScoped<IService<AdditionalProductModel, AdditionalProductEntity>, Service<AdditionalProductModel, AdditionalProductEntity>>();
+            services.AddScoped<IService<FilmModel, FilmEntity>, Service<FilmModel, FilmEntity>>();
+            services.AddScoped<IService<HallModel, HallEntity>, Service<HallModel, HallEntity>>();
+            services.AddScoped<IService<SessionModel, SessionEntity>, Service<SessionModel, SessionEntity>>();
+            services.AddScoped<IService<SittingPlaceInfoModel, SittingPlaceEntity>, Service<SittingPlaceInfoModel, SittingPlaceEntity>>();
+            services.AddScoped<IService<SittingPlaceModel, SittingPlaceEntity>, Service<SittingPlaceModel, SittingPlaceEntity>>();
+            services.AddScoped<IService<TheaterModel, TheaterEntity>, Service<TheaterModel, TheaterEntity>>();
+            services.AddScoped<IService<TicketModel, TicketEntity>, Service<TicketModel, TicketEntity>>();
+            services.AddScoped<IService<AdditionalProductModel, AdditionalProductModel>, Service<AdditionalProductModel, AdditionalProductModel>>();
 
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
