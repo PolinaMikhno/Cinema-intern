@@ -1,4 +1,5 @@
-﻿using Cinema.DAL.Entities;
+﻿using Cinema.DAL.Auth;
+using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 using Microsoft.EntityFrameworkCore;
 
