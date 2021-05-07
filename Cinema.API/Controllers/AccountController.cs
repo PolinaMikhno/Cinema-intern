@@ -24,7 +24,6 @@ namespace Cinema.API.Controllers
         public AccountController(CinemaContext context, IRepository<UserEntity> repository, IMapper mapper)
         {
             _userService = new Service<UserModel, UserEntity>(repository, mapper);
-
         }
 
 
@@ -35,7 +34,7 @@ namespace Cinema.API.Controllers
             {
                 return BadRequest("Passwords are not same");
             }
-            
+
             IEnumerable<UserModel> possibleExistingUserEnumerable =
                 await _userService.GetAsync(u => u.Name.Equals(username));
 
@@ -45,13 +44,14 @@ namespace Cinema.API.Controllers
             }
 
             await _userService.CreateAsync(new UserModel(username, password));
-            
+
             return Ok("Ok");
         }
 
         [HttpPost("/token")]
         public async Task<ActionResult> Token(string name, string password)
         {
+           
             ClaimsIdentity identity = await GetIdentity(name, password);
             if (identity == null)
             {
@@ -87,11 +87,10 @@ namespace Cinema.API.Controllers
 
         private async Task<ClaimsIdentity> GetIdentity(string name, string password)
         {
-            Console.WriteLine("====================================================");
-            IEnumerable<UserModel> userEnumerable = await _userService.GetAsync(u => u.Name.Equals(name) && u.CheckPassword(password));
-            Console.WriteLine($"Found user with specified name and password: {userEnumerable.Any()}");
+            IEnumerable<UserModel> userEnumerable =
+                await _userService.GetAsync(u => u.Name.Equals(name) && u.CheckPassword(password));
+            Console.WriteLine($"Found user with specified name and password: {userEnumerable.Any()} ({name} {password})");
             UserModel userModel = userEnumerable.FirstOrDefault();
-            Console.WriteLine($"UserModel: {userModel.Name}, {userModel.Role}");
             if (userModel != null)
             {
                 List<Claim> claims = new List<Claim>

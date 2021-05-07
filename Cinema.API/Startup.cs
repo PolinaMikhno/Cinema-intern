@@ -27,6 +27,7 @@ namespace Cinema.API
     public class Startup
     {
         private readonly ILogger _logger;
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
@@ -43,7 +44,7 @@ namespace Cinema.API
             {
                 configuration.AddProfile(new MappingProfile());
             });
-            
+
             IMapper mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
             services.AddSwaggerGen(c =>
@@ -105,19 +106,38 @@ namespace Cinema.API
             services.AddScoped<IRepository<TicketEntity>, Repository<TicketEntity>>();
             services.AddScoped<IRepository<UserEntity>, Repository<UserEntity>>();
 
-            services.AddScoped<IService<AdditionalProductModel, AdditionalProductEntity>, Service<AdditionalProductModel, AdditionalProductEntity>>();
+            services
+                .AddScoped<IService<AdditionalProductModel, AdditionalProductEntity>,
+                    Service<AdditionalProductModel, AdditionalProductEntity>>();
             services.AddScoped<IService<FilmModel, FilmEntity>, Service<FilmModel, FilmEntity>>();
             services.AddScoped<IService<HallModel, HallEntity>, Service<HallModel, HallEntity>>();
             services.AddScoped<IService<SessionModel, SessionEntity>, Service<SessionModel, SessionEntity>>();
-            services.AddScoped<IService<SittingPlaceInfoModel, SittingPlaceEntity>, Service<SittingPlaceInfoModel, SittingPlaceEntity>>();
-            services.AddScoped<IService<SittingPlaceModel, SittingPlaceEntity>, Service<SittingPlaceModel, SittingPlaceEntity>>();
+            services
+                .AddScoped<IService<SittingPlaceInfoModel, SittingPlaceEntity>,
+                    Service<SittingPlaceInfoModel, SittingPlaceEntity>>();
+            services
+                .AddScoped<IService<SittingPlaceModel, SittingPlaceEntity>,
+                    Service<SittingPlaceModel, SittingPlaceEntity>>();
             services.AddScoped<IService<TheaterModel, TheaterEntity>, Service<TheaterModel, TheaterEntity>>();
             services.AddScoped<IService<TicketModel, TicketEntity>, Service<TicketModel, TicketEntity>>();
-            services.AddScoped<IService<AdditionalProductModel, AdditionalProductModel>, Service<AdditionalProductModel, AdditionalProductModel>>();
+            services
+                .AddScoped<IService<AdditionalProductModel, AdditionalProductModel>,
+                    Service<AdditionalProductModel, AdditionalProductModel>>();
             services.AddScoped<IService<UserModel, UserEntity>, Service<UserModel, UserEntity>>();
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        // TODO: 
+                        builder.W
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });*/
             // auto-gen
             services.AddControllers();
         }
@@ -169,6 +189,12 @@ namespace Cinema.API
                     });
                 });
             }
+
+            app.UseCors(
+                options => options.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                );
 
             app.UseAuthentication();
 
