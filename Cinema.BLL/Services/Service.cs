@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Cinema.DAL.EF;
-using Cinema.DAL.Entities.Sessions;
-using Cinema.Services.DTO.Sessions;
 using Serilog;
 
 namespace Cinema.Services.Services

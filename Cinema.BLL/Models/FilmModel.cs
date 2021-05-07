@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cinema.Services.DTO
+namespace Cinema.Services.Models
 {
     public class FilmModel
     {

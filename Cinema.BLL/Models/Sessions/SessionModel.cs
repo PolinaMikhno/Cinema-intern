@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 
-namespace Cinema.Services.DTO.Sessions
+namespace Cinema.Services.Models.Sessions
 {
     public class SessionModel
     {

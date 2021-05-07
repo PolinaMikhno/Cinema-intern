@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Cinema.DAL.Auth;
 using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
-using Cinema.Services.DTO;
-using Cinema.Services.DTO.Sessions;
+using Cinema.Services.Models;
+using Cinema.Services.Models.Sessions;
 
 namespace Cinema.API.Models
 {
@@ -34,6 +33,9 @@ namespace Cinema.API.Models
 
             CreateMap<TicketEntity, TicketModel>();
             CreateMap<TicketModel, TicketEntity>();
+
+            CreateMap<UserEntity, UserModel>();
+            CreateMap<UserModel, UserEntity>();
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
 using ActionFilterAttribute = System.Web.Http.Filters.ActionFilterAttribute;
 
 namespace Cinema.API.Filters

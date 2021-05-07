@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Cinema.DAL.Auth;
-using Cinema.DAL.EF;
+﻿using Cinema.DAL.EF;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cinema.API.Controllers
