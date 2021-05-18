@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using Cinema.DAL.EF;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Serilog;
 
 namespace Cinema.Services.Services
@@ -11,11 +14,13 @@ namespace Cinema.Services.Services
     {
         private IRepository<TEntity> _repository;
         private IMapper _mapper;
+        private IWebHostEnvironment _environment;
 
-        public Service(IRepository<TEntity> repository, IMapper mapper)
+        public Service(IRepository<TEntity> repository, IMapper mapper, IWebHostEnvironment environment)
         {
             _repository = repository;
             _mapper = mapper;
+            _environment = environment;
         }
 
         public async Task<IEnumerable<TModel>> GetAsync()
@@ -80,6 +85,24 @@ namespace Cinema.Services.Services
             }
 
             return true;
+        }
+
+        public string UploadedFile(string filePath, IFormFile file)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+            
+            string uploadsFolder = Path.Combine(_environment.WebRootPath, filePath);
+            string uniqueFileName = Guid.NewGuid().ToString();
+            string path = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
+
+            return uniqueFileName;
         }
     }
 }

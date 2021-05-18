@@ -11,9 +11,9 @@ using Cinema.DAL.Entities;
 using Cinema.Services.Models;
 using Cinema.Services.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Serilog;
 
 namespace Cinema.API.Controllers
 {
@@ -21,9 +21,10 @@ namespace Cinema.API.Controllers
     {
         private Service<UserModel, UserEntity> _userService;
 
-        public AccountController(CinemaContext context, IRepository<UserEntity> repository, IMapper mapper)
+        public AccountController(IRepository<UserEntity> repository, IMapper mapper,
+            IWebHostEnvironment environment)
         {
-            _userService = new Service<UserModel, UserEntity>(repository, mapper);
+            _userService = new Service<UserModel, UserEntity>(repository, mapper, environment);
         }
 
 
@@ -51,7 +52,6 @@ namespace Cinema.API.Controllers
         [HttpPost("/token")]
         public async Task<ActionResult> Token(string name, string password)
         {
-           
             ClaimsIdentity identity = await GetIdentity(name, password);
             if (identity == null)
             {
@@ -89,7 +89,8 @@ namespace Cinema.API.Controllers
         {
             IEnumerable<UserModel> userEnumerable =
                 await _userService.GetAsync(u => u.Name.Equals(name) && u.CheckPassword(password));
-            Console.WriteLine($"Found user with specified name and password: {userEnumerable.Any()} ({name} {password})");
+            /*Console.WriteLine(
+                $"Found user with specified name and password: {userEnumerable.Any()} ({name} {password})");*/
             UserModel userModel = userEnumerable.FirstOrDefault();
             if (userModel != null)
             {

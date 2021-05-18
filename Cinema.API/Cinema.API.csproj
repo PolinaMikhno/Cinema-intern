@@ -34,5 +34,9 @@
     <ProjectReference Include="..\Cinema.DAL\Cinema.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\FilmPosters" />
+  </ItemGroup>
+
 
 </Project>

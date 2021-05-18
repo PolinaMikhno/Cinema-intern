@@ -6,8 +6,8 @@ using Cinema.DAL.EF;
 using Cinema.DAL.Entities;
 using Cinema.Services.Models;
 using Cinema.Services.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 namespace Cinema.API.Controllers
 {
@@ -16,10 +16,29 @@ namespace Cinema.API.Controllers
     {
         private readonly Service<FilmModel, FilmEntity> _filmService;
 
-        public CinemaController(CinemaContext context, IRepository<FilmEntity> repository, IMapper mapper)
+        private const string PostersImagesPath = "FilmPosters";
+        public CinemaController(IRepository<FilmEntity> repository, IMapper mapper, IWebHostEnvironment environment)
         {
-            _filmService = new Service<FilmModel, FilmEntity>(repository, mapper);
+            _filmService = new Service<FilmModel, FilmEntity>(repository, mapper, environment);
         }
+
+        [HttpPost("/addFilm")]
+        public async Task<ActionResult> CreateFilm([FromForm]FilmModel filmModel)
+        {
+            string uploadedFileUniqueName = _filmService.UploadedFile(PostersImagesPath, filmModel.PosterImage);
+            filmModel.PosterImageName = uploadedFileUniqueName;
+            
+            FilmModel dbModel = await _filmService.CreateAsync(filmModel);
+            if (dbModel == null)
+            {
+                // TODO: remove image
+                return BadRequest($"Error while trying to add film ({filmModel.Name}, {filmModel.Id})");
+            }
+            
+            return Ok("");
+        }
+        
+        
 
         [HttpPost("/addFilms")]
         public async Task<ActionResult> CreateFilms(IEnumerable<FilmModel> filmModels)
