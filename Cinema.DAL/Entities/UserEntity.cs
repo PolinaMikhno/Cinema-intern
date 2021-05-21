@@ -15,7 +15,17 @@ namespace Cinema.DAL.Entities
 
         public IEnumerable<TicketEntity> Tickets { get; set; }
 
-
+        public UserEntity()
+        {
+            
+        }
+        
+        public UserEntity(string name, string password)
+        {
+            Name = name;
+            PasswordHash = Cryptography.HashPassword(password);
+        }
+        
         public bool CheckPassword(string possiblePassword)
         {
             return Cryptography.VerifyHashedPassword(PasswordHash, possiblePassword);

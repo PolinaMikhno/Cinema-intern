@@ -29,7 +29,7 @@ namespace Cinema.API.Controllers
 
 
         [HttpPost("signup")]
-        public async Task<ActionResult> SignUp(string username, string password, string confirmPassword)
+        public async Task<ActionResult> SignUp(string name, string password, string confirmPassword)
         {
             if (!password.Equals(confirmPassword))
             {
@@ -37,14 +37,14 @@ namespace Cinema.API.Controllers
             }
 
             IEnumerable<UserModel> possibleExistingUserEnumerable =
-                await _userService.GetAsync(u => u.Name.Equals(username));
+                await _userService.GetAsync(u => u.Name.Equals(name));
 
             if (possibleExistingUserEnumerable.Any())
             {
                 return BadRequest("This username is already exists");
             }
 
-            await _userService.CreateAsync(new UserModel(username, password));
+            await _userService.CreateAsync(new UserModel(name, password));
 
             return Ok("Ok");
         }

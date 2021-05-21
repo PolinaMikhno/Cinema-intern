@@ -47,7 +47,7 @@ namespace Cinema.API.Controllers
             {
                 var result = await _filmService.CreateAsync(filmModel);
                 if (result == null)
-                    return BadRequest("Error while creating");
+                    return BadRequest($"Error while creating model with id: {filmModel.Id}");
             }
 
             return Ok("Ok");

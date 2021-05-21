@@ -15,4 +15,4 @@ namespace Cinema.Services.Models
         [Required] public IFormFile PosterImage { get; set; }
         public string PosterImageName { get; set; }
     }
-}
+} 

@@ -12,8 +12,8 @@ namespace Cinema.Services.Services
 {
     public class Service<TModel, TEntity> : IService<TModel, TEntity> where TModel : class where TEntity : class
     {
-        private IRepository<TEntity> _repository;
-        private IMapper _mapper;
+        private readonly IRepository<TEntity> _repository;
+        private readonly IMapper _mapper;
         private IWebHostEnvironment _environment;
 
         public Service(IRepository<TEntity> repository, IMapper mapper, IWebHostEnvironment environment)
@@ -46,6 +46,7 @@ namespace Cinema.Services.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 Log.Error(e.Message);
                 return null;
             }

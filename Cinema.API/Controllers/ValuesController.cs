@@ -15,4 +15,4 @@ namespace Cinema.API.Controllers
             return Ok($"Username: {User.Identity.Name}");
         }
     }
-}
+}     
