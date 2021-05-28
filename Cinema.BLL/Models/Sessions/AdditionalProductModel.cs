@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cinema.Services.DTO.Sessions
+namespace Cinema.Services.Models.Sessions
 {
     public class AdditionalProductModel
     {

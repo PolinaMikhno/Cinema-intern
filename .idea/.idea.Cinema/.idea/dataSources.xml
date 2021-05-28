@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Cinema Database" uuid="0373a5a8-5172-4636-9b22-7db302c4ce4d">
+    <data-source source="LOCAL" name="Microsoft SQL Server (jTds)" uuid="87bffe70-d5b2-4528-a47b-03b1164eaf28">
       <driver-ref>sqlserver.jtds</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>net.sourceforge.jtds.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:jtds:sqlserver://./cinemadb;instance=&lt;pipe name&gt;;namedPipe=true</jdbc-url>
+      <jdbc-url>jdbc:jtds:sqlserver://localhost</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="LOCAL_DB_EXECUTABLE" value="C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="cinema1db" uuid="d1230218-7710-4a00-a8ec-3cda9feb68dd">
+      <driver-ref>sqlserver.jtds</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>net.sourceforge.jtds.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:jtds:sqlserver://./cinema1db;instance=&lt;pipe name&gt;;namedPipe=true</jdbc-url>
       <jdbc-additional-properties>
         <property name="LOCAL_DB_INSTANCE" value="MSSQLLocalDB" />
         <property name="LOCAL_DB_EXECUTABLE" value="C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" />

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Cinema.DAL.Enums;
 
-namespace Cinema.Services.DTO
+namespace Cinema.Services.Models
 {
     public class SittingPlaceModel
     {

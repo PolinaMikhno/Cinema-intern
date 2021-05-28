@@ -1,7 +1,7 @@
-﻿using Cinema.DAL.Entities;
+﻿using Cinema.DAL.Auth;
+using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 using Microsoft.EntityFrameworkCore;
-using User = Cinema.DAL.Auth.User;
 
 namespace Cinema.DAL.EF
 {
@@ -13,7 +13,7 @@ namespace Cinema.DAL.EF
 
         public DbSet<TicketEntity> Tickets;
         
-        public DbSet<User> Users;
+        public DbSet<UserEntity> Users;
 
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
@@ -30,7 +30,7 @@ namespace Cinema.DAL.EF
             modelBuilder.Entity<FilmEntity>().ToTable("Films");
             modelBuilder.Entity<TheaterEntity>().ToTable("Theaters");
             modelBuilder.Entity<SessionEntity>().ToTable("Sessions");
-            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<UserEntity>().ToTable("Users");
             
             modelBuilder.Entity<AdditionalProductEntity>().ToTable("AdditionalServices");
             modelBuilder.Entity<HallEntity>().ToTable("Halls");

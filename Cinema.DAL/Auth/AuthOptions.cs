@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Cinema.DAL.Auth
 {
     // ауф
-    public class AuthOptions
+    public static class AuthOptions
     {
         public const string Issuer = "Issuer";
         public const string Audience = "Audience";

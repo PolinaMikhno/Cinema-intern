@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cinema.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.DAL.EF

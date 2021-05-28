@@ -4,10 +4,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
+using Cinema.DAL.Entities;
+using Cinema.Services.Models;
+using Cinema.Services.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,12 +19,34 @@ namespace Cinema.API.Controllers
 {
     public class AccountController : Controller
     {
-        private Repository<User> users;
+        private Service<UserModel, UserEntity> _userService;
 
-        public AccountController(CinemaContext context)
+        public AccountController(IRepository<UserEntity> repository, IMapper mapper,
+            IWebHostEnvironment environment)
         {
-            users = new Repository<User>(context);
-            
+            _userService = new Service<UserModel, UserEntity>(repository, mapper, environment);
+        }
+
+
+        [HttpPost("signup")]
+        public async Task<ActionResult> SignUp(string name, string password, string confirmPassword)
+        {
+            if (!password.Equals(confirmPassword))
+            {
+                return BadRequest("Passwords are not same");
+            }
+
+            IEnumerable<UserModel> possibleExistingUserEnumerable =
+                await _userService.GetAsync(u => u.Name.Equals(name));
+
+            if (possibleExistingUserEnumerable.Any())
+            {
+                return BadRequest("This username is already exists");
+            }
+
+            await _userService.CreateAsync(new UserModel(name, password));
+
+            return Ok("Ok");
         }
 
         [HttpPost("/token")]
@@ -61,14 +87,17 @@ namespace Cinema.API.Controllers
 
         private async Task<ClaimsIdentity> GetIdentity(string name, string password)
         {
-            IEnumerable<User> userEnumerable = await users.GetAsync(u => u.Name.Equals(name) && u.PasswordHash.Equals(password));
-            User user = userEnumerable.FirstOrDefault();
-            if (user != null)
+            IEnumerable<UserModel> userEnumerable =
+                await _userService.GetAsync(u => u.Name.Equals(name) && u.CheckPassword(password));
+            /*Console.WriteLine(
+                $"Found user with specified name and password: {userEnumerable.Any()} ({name} {password})");*/
+            UserModel userModel = userEnumerable.FirstOrDefault();
+            if (userModel != null)
             {
                 List<Claim> claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, userModel.Name),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, userModel.Role)
                 };
                 ClaimsIdentity claimsIdentity =
                     new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

@@ -10,15 +10,14 @@ using Cinema.DAL.Auth;
 using Cinema.DAL.EF;
 using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
-using Cinema.Services.DTO;
-using Cinema.Services.DTO.Sessions;
+using Cinema.Services.Models;
+using Cinema.Services.Models.Sessions;
 using Cinema.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -28,6 +27,7 @@ namespace Cinema.API
     public class Startup
     {
         private readonly ILogger _logger;
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
@@ -44,7 +44,7 @@ namespace Cinema.API
             {
                 configuration.AddProfile(new MappingProfile());
             });
-            
+
             IMapper mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
             services.AddSwaggerGen(c =>
@@ -96,29 +96,48 @@ namespace Cinema.API
                     options.AddPolicy("RequireUserRights", policy => policy.RequireRole("User"));
                 }
             );
-            services.AddScoped<IRepository<AdditionalProductModel>, Repository<AdditionalProductModel>>();
-            services.AddScoped<IRepository<SessionModel>, Repository<SessionModel>>();
-            services.AddScoped<IRepository<SittingPlaceInfoModel>, Repository<SittingPlaceInfoModel>>();
-            services.AddScoped<IRepository<FilmModel>, Repository<FilmModel>>();
-            services.AddScoped<IRepository<HallModel>, Repository<HallModel>>();
-            services.AddScoped<IRepository<SittingPlaceModel>, Repository<SittingPlaceModel>>();
-            services.AddScoped<IRepository<TheaterModel>, Repository<TheaterModel>>();
-            services.AddScoped<IRepository<TicketModel>, Repository<TicketModel>>();
+            services.AddScoped<IRepository<AdditionalProductEntity>, Repository<AdditionalProductEntity>>();
+            services.AddScoped<IRepository<SessionEntity>, Repository<SessionEntity>>();
+            services.AddScoped<IRepository<SittingPlaceInfoEntity>, Repository<SittingPlaceInfoEntity>>();
+            services.AddScoped<IRepository<FilmEntity>, Repository<FilmEntity>>();
+            services.AddScoped<IRepository<HallEntity>, Repository<HallEntity>>();
+            services.AddScoped<IRepository<SittingPlaceEntity>, Repository<SittingPlaceEntity>>();
+            services.AddScoped<IRepository<TheaterEntity>, Repository<TheaterEntity>>();
+            services.AddScoped<IRepository<TicketEntity>, Repository<TicketEntity>>();
+            services.AddScoped<IRepository<UserEntity>, Repository<UserEntity>>();
 
-            services.AddScoped<IService<AdditionalProductModel, AdditionalProductEntity>, Service<AdditionalProductModel, AdditionalProductEntity>>();
+            services
+                .AddScoped<IService<AdditionalProductModel, AdditionalProductEntity>,
+                    Service<AdditionalProductModel, AdditionalProductEntity>>();
             services.AddScoped<IService<FilmModel, FilmEntity>, Service<FilmModel, FilmEntity>>();
             services.AddScoped<IService<HallModel, HallEntity>, Service<HallModel, HallEntity>>();
             services.AddScoped<IService<SessionModel, SessionEntity>, Service<SessionModel, SessionEntity>>();
-            services.AddScoped<IService<SittingPlaceInfoModel, SittingPlaceEntity>, Service<SittingPlaceInfoModel, SittingPlaceEntity>>();
-            services.AddScoped<IService<SittingPlaceModel, SittingPlaceEntity>, Service<SittingPlaceModel, SittingPlaceEntity>>();
+            services
+                .AddScoped<IService<SittingPlaceInfoModel, SittingPlaceEntity>,
+                    Service<SittingPlaceInfoModel, SittingPlaceEntity>>();
+            services
+                .AddScoped<IService<SittingPlaceModel, SittingPlaceEntity>,
+                    Service<SittingPlaceModel, SittingPlaceEntity>>();
             services.AddScoped<IService<TheaterModel, TheaterEntity>, Service<TheaterModel, TheaterEntity>>();
             services.AddScoped<IService<TicketModel, TicketEntity>, Service<TicketModel, TicketEntity>>();
-            services.AddScoped<IService<AdditionalProductModel, AdditionalProductModel>, Service<AdditionalProductModel, AdditionalProductModel>>();
-
+            services
+                .AddScoped<IService<AdditionalProductModel, AdditionalProductModel>,
+                    Service<AdditionalProductModel, AdditionalProductModel>>();
+            services.AddScoped<IService<UserModel, UserEntity>, Service<UserModel, UserEntity>>();
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CinemaContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
-            // auto-gen
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        // TODO: 
+                        builder.W
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });*/
             services.AddControllers();
         }
 
@@ -169,6 +188,14 @@ namespace Cinema.API
                     });
                 });
             }
+
+            app.UseCors(
+                options => options.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                );
+            
+            app.UseStaticFiles();
 
             app.UseAuthentication();
 

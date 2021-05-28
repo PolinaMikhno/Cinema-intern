@@ -19,26 +19,6 @@ namespace Cinema.DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Cinema.DAL.Auth.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("Cinema.DAL.Entities.FilmEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -52,6 +32,9 @@ namespace Cinema.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PosterImageName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Start")
@@ -191,16 +174,36 @@ namespace Cinema.DAL.Migrations
                     b.Property<Guid?>("SessionEntityId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UserEntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SessionEntityId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEntityId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("Cinema.DAL.Entities.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Cinema.DAL.Entities.HallEntity", b =>
@@ -255,16 +258,11 @@ namespace Cinema.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("SessionEntityId");
 
-                    b.HasOne("Cinema.DAL.Auth.User", null)
+                    b.HasOne("Cinema.DAL.Entities.UserEntity", null)
                         .WithMany("Tickets")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserEntityId");
 
                     b.Navigation("SessionEntity");
-                });
-
-            modelBuilder.Entity("Cinema.DAL.Auth.User", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Cinema.DAL.Entities.HallEntity", b =>
@@ -285,6 +283,11 @@ namespace Cinema.DAL.Migrations
             modelBuilder.Entity("Cinema.DAL.Entities.TicketEntity", b =>
                 {
                     b.Navigation("Places");
+                });
+
+            modelBuilder.Entity("Cinema.DAL.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Cinema.DAL.Entities;
-using Cinema.Services.DTO;
-using Serilog;
+using Microsoft.AspNetCore.Http;
 
 namespace Cinema.Services.Services
 {
@@ -16,6 +13,8 @@ namespace Cinema.Services.Services
         public Task<TModel> CreateAsync(TModel item);
         public bool RemoveAsync(TModel item);
         public bool UpdateAsync(TModel item);
+
+        public string UploadedFile(string filePath, IFormFile file);
 
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Cinema.DAL.Entities;
 using Cinema.DAL.Entities.Sessions;
 
-namespace Cinema.Services.DTO
+namespace Cinema.Services.Models
 {
     public class TicketModel
     {
