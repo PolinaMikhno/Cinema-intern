@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Cinema.DAL.EF;
@@ -22,6 +23,7 @@ namespace Cinema.API.Controllers
             _filmService = new Service<FilmModel, FilmEntity>(repository, mapper, environment);
         }
 
+        // TODO: authorizen
         [HttpPost("/addFilm")]
         public async Task<ActionResult> CreateFilm([FromForm]FilmModel filmModel)
         {
@@ -31,13 +33,22 @@ namespace Cinema.API.Controllers
             FilmModel dbModel = await _filmService.CreateAsync(filmModel);
             if (dbModel == null)
             {
-                // TODO: remove image
                 return BadRequest($"Error while trying to add film ({filmModel.Name}, {filmModel.Id})");
             }
             
             return Ok("");
         }
-        
+
+        [HttpPost("/filmByName")]
+        public async Task<FilmModel> GetFilmByName(string filmName)
+        {
+            IEnumerable<FilmModel> models = await _filmService.GetAsync(film => film.Name.Equals(filmName));
+            if (models.Count() == 0)
+            {
+                throw new Exception("Film Something Does Not Exist");
+            } 
+            return models.FirstOrDefault();
+        }
         
 
         [HttpPost("/addFilms")]
@@ -52,14 +63,21 @@ namespace Cinema.API.Controllers
 
             return Ok("Ok");
         }
+        
+        
 
         [HttpPost("/films")]
-        public async Task<IEnumerable<FilmModel>> GetFilms(string searchText, DateTime? start, DateTime? end)
+        public async Task<IEnumerable<FilmModel>> FindFilms(string searchText, DateTime? start, DateTime? end)
         {
             if (start.HasValue && end.HasValue)
             {
                 if (DateTime.Compare((DateTime) start, (DateTime) end) >= 0)
                     throw new Exception("Start date is later than end date");
+            }
+            else
+            {
+                start = DateTime.Now;
+                end = DateTime.Now;
             }
 
             IEnumerable<FilmModel> films;
@@ -69,10 +87,9 @@ namespace Cinema.API.Controllers
                     film =>
                         (film.Name.Contains(searchText)
                          || film.Description.Contains(searchText))
-                        && (start == null || DateTime.Compare(film.Start, (DateTime) start) >= 0)
-                        && (end == null || DateTime.Compare(film.End, (DateTime) end) <= 0)
-                        && (start == null || end == null ||
-                            Intersects(film.Start, film.End, (DateTime) start, (DateTime) end))
+                        /*&& DateTime.Compare(film.Start, (DateTime) start) >= 0
+                        && DateTime.Compare(film.End, (DateTime) end) <= 0
+                        && Intersects(film.Start, film.End, (DateTime) start, (DateTime) end)*/
                 );
             }
             else

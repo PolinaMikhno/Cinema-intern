@@ -138,7 +138,6 @@ namespace Cinema.API
                             .AllowAnyMethod();
                     });
             });*/
-            // auto-gen
             services.AddControllers();
         }
 
@@ -195,6 +194,8 @@ namespace Cinema.API
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                 );
+            
+            app.UseStaticFiles();
 
             app.UseAuthentication();
 

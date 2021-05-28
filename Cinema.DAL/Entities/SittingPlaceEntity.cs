@@ -9,6 +9,7 @@ namespace Cinema.DAL.Entities
 
         public int Number { get; set; }
         public int Row { get; set; }
+        public bool IsBooked { get; set; }
 
         public SittingPlaceType SittingPlaceType { get; set; }
     }

@@ -90,13 +90,14 @@ namespace Cinema.Services.Services
 
         public string UploadedFile(string filePath, IFormFile file)
         {
+            string extension = ".jpg";
             if (file == null)
             {
                 return null;
             }
             
             string uploadsFolder = Path.Combine(_environment.WebRootPath, filePath);
-            string uniqueFileName = Guid.NewGuid().ToString();
+            string uniqueFileName = Guid.NewGuid() + extension;
             string path = Path.Combine(uploadsFolder, uniqueFileName);
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
